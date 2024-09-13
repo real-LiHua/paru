@@ -30,10 +30,10 @@ pub fn newest_pkg(config: &Config) -> i64 {
 }
 
 pub async fn news(config: &Config) -> Result<i32> {
-    let url = config.arch_url.clone();
+    let url = config.arch_url;
     let client = config.raur.client();
 
-    let resp = client.get(url).send().await?;
+    let resp = client.get(url.clone()).send().await?;
     if !resp.status().is_success() {
         bail!("{}: {}", url, resp.status());
     }
