@@ -560,7 +560,7 @@ impl Ini for Config {
         let err = match cb.kind {
             CallbackKind::Section(section) => {
                 self.section = Some(section.to_string());
-                if !matches!(section, "options" | "bin" | "env")
+                if !matches!(section, "options" | "bin" | "env" | "news")
                     && self.pkgbuild_repos.repo(section).is_none()
                 {
                     if matches!(section, "local" | "aur" | "pkg" | "base") || section.contains('.')
@@ -996,7 +996,12 @@ impl Config {
         set_var(key, value);
         Ok(())
     }
-
+    fn parse_news(&mut self, key: &str, value: Option<&str>) -> Result<()> {
+        let lang = var("LANG").unwrap_or("C".to_string());
+        match key {
+            lang => self.arch_url = value,
+        }
+    }
     fn parse_bin(&mut self, key: &str, value: Option<&str>) -> Result<()> {
         let value = value
             .map(|s| s.to_string())
