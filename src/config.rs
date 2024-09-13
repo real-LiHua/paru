@@ -999,7 +999,7 @@ impl Config {
     fn parse_news(&mut self, key: &str, value: Option<&str>) -> Result<()> {
         let lang = var("LANG").unwrap_or("C".to_string());
         match key {
-            lang => self.arch_url = value,
+            lang => self.arch_url = Url::parse(value?)?,
         }
     }
     fn parse_bin(&mut self, key: &str, value: Option<&str>) -> Result<()> {
@@ -1107,7 +1107,6 @@ impl Config {
         match key {
             "AurUrl" => self.aur_url = value?.parse()?,
             "AurRpcUrl" => self.aur_rpc_url = Some(value?.parse()?),
-            "ArchUrl" => self.arch_url = value?.parse()?,
             "BuildDir" | "CloneDir" => self.build_dir = PathBuf::from(value?),
             "Redownload" => self.redownload = ConfigEnum::from_str(key, value?.as_str())?,
             "Rebuild" => self.rebuild = ConfigEnum::from_str(key, value?.as_str())?,
