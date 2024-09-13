@@ -414,7 +414,7 @@ pub struct Config {
     #[default(Url::parse("https://aur.archlinux.org").unwrap())]
     pub aur_url: Url,
     pub aur_rpc_url: Option<Url>,
-    #[default(Url::parse("https://archlinux.org/feeds/news").unwrap())]
+    #[default(Url::parse("https://archlinux.org").unwrap())]
     pub arch_url: Url,
     pub build_dir: PathBuf,
     pub cache_dir: PathBuf,
@@ -1000,7 +1000,8 @@ impl Config {
         let lang = var("LANG").unwrap_or("C".to_string());
         match key {
             lang => self.arch_url = value?.parse()?,
-        }
+        };
+        Ok(());
     }
     fn parse_bin(&mut self, key: &str, value: Option<&str>) -> Result<()> {
         let value = value
