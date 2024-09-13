@@ -414,7 +414,7 @@ pub struct Config {
     #[default(Url::parse("https://aur.archlinux.org").unwrap())]
     pub aur_url: Url,
     pub aur_rpc_url: Option<Url>,
-    #[default(Url::parse("https://archlinux.org").unwrap())]
+    #[default(Url::parse("https://archlinux.org/feeds/news").unwrap())]
     pub arch_url: Url,
     pub build_dir: PathBuf,
     pub cache_dir: PathBuf,
@@ -1102,6 +1102,7 @@ impl Config {
         match key {
             "AurUrl" => self.aur_url = value?.parse()?,
             "AurRpcUrl" => self.aur_rpc_url = Some(value?.parse()?),
+            "ArchUrl" => self.arch_url = value?.parse()?,
             "BuildDir" | "CloneDir" => self.build_dir = PathBuf::from(value?),
             "Redownload" => self.redownload = ConfigEnum::from_str(key, value?.as_str())?,
             "Rebuild" => self.rebuild = ConfigEnum::from_str(key, value?.as_str())?,
