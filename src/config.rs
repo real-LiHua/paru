@@ -999,7 +999,7 @@ impl Config {
     fn parse_news(&mut self, key: &str, value: Option<&str>) -> Result<()> {
         let lang = var("LANG").unwrap_or("C".to_string());
         match key {
-            lang => self.arch_url = value?.parse()?,
+            Some(lang) => self.arch_url = value?.parse()?,
         };
         Ok(());
     }
